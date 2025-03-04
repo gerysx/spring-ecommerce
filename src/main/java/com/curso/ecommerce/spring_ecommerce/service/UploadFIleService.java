@@ -32,7 +32,7 @@ public String saveImage(MultipartFile file) throws IOException {
 }
 
 // Método para eliminar una imagen del sistema de archivos
-public void delete(String nombre) {
+public void deleteImage(String nombre) {
     // Define la ruta de la carpeta donde se encuentran las imágenes
     String ruta = "images//";
     // Crea un objeto File con la ruta y el nombre del archivo a eliminar
