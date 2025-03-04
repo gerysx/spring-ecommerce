@@ -1,5 +1,6 @@
 package com.curso.ecommerce.spring_ecommerce.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.slf4j.*;
@@ -10,10 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.curso.ecommerce.spring_ecommerce.model.Producto;
 import com.curso.ecommerce.spring_ecommerce.model.Usuario;
 import com.curso.ecommerce.spring_ecommerce.service.ProductoService;
+import com.curso.ecommerce.spring_ecommerce.service.UploadFIleService;
 
 @Controller
 @RequestMapping("/productos")
@@ -23,6 +27,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private UploadFIleService upload;
 
     @GetMapping("")
     public String show(Model model){
@@ -35,10 +42,23 @@ public class ProductoController {
     }
 
     @PostMapping("/save")
-    public String save(Producto producto){
+    public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException{
         LOGGER.info("Este es el objeto producto {}", producto);
         Usuario u = new Usuario(1, "null", "null", "null", "null", "null", "null", "null");
         producto.setUsuario(u);
+
+        //imagen
+        if(producto.getId()==null) { // CUANDO SE CREA UN PRODUCTO LA PRIMERA VEZ SIEMPRE VA A SER NULL
+            String nombreImagen= upload.saveImage(file);
+            producto.setImagen(nombreImagen);
+        }else {
+            if(file.isEmpty()){ //EDITAMOS EL PRODUCTO PERO NO CAMBIAMOS LA IMAGEN
+                Producto p = new Producto();
+                p=productoService.get(producto.getId()).get();
+                producto.setImagen(p.getImagen());
+            }
+        }
+
         productoService.save(producto);
         return "redirect:/productos";
     }
