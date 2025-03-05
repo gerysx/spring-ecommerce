@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.curso.ecommerce.spring_ecommerce.model.DetalleOrden;
+import com.curso.ecommerce.spring_ecommerce.model.Orden;
+import com.curso.ecommerce.spring_ecommerce.model.Producto;
 import com.curso.ecommerce.spring_ecommerce.repository.IDetalleOrdenRepository;
 
 
@@ -17,5 +19,7 @@ public class DetalleOrdenServiceImpl implements IDetalleOrdenService{
     public DetalleOrden save(DetalleOrden detalleOrden) {
         return detalleOrdenRepository.save(detalleOrden);
     }
+
+    
 
 }

@@ -17,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.curso.ecommerce.spring_ecommerce.model.Producto;
 import com.curso.ecommerce.spring_ecommerce.model.Usuario;
 import com.curso.ecommerce.spring_ecommerce.service.IProductoService;
+import com.curso.ecommerce.spring_ecommerce.service.IUsuarioService;
 import com.curso.ecommerce.spring_ecommerce.service.UploadFIleService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/productos")
@@ -27,6 +30,9 @@ public class ProductoController {
 
     @Autowired
     private IProductoService productoService;
+
+    @Autowired
+    private IUsuarioService usuarioService;
 
     @Autowired
     private UploadFIleService upload;
@@ -43,9 +49,11 @@ public class ProductoController {
     }
 
     @PostMapping("/save")
-    public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
+    public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession session)
+            throws IOException {
         LOGGER.info("Este es el objeto producto {}", producto);
-        Usuario u = new Usuario(1, "null", "null", "null", "null", "null", "null", "null");
+
+        Usuario u = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
         producto.setUsuario(u);
 
         // imagen

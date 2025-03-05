@@ -8,4 +8,6 @@ import com.curso.ecommerce.spring_ecommerce.model.DetalleOrden;
 @Repository
 public interface IDetalleOrdenRepository extends JpaRepository<DetalleOrden, Integer> {
 
+    
+
 }
