@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.curso.ecommerce.spring_ecommerce.model.Usuario;
-import com.curso.ecommerce.spring_ecommerce.repository.UsuarioRepository;
+import com.curso.ecommerce.spring_ecommerce.repository.IUsuarioRepository;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService{
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioRepository usuarioRepository;
 
     @Override
     public Optional<Usuario> findById(Integer id) {
